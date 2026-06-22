@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>فروشگاه لوازم بهداشتی پاسارگاد</title>
+  <link rel="icon" type="image/png" href="pasa.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    /* ----- Modal (ورود / ثبت نام) ----- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px); /* افکت بلور */
+  display: none; /* ابتدا مخفی */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.4);
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  transform: translateY(-40px);
+  transition: transform 300ms ease-in-out;
+  animation: modal-pop 400ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+@keyframes modal-pop {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+  transition: color 200ms ease;
+}
+
+.modal-close:hover {
+  color: #111827;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1d4ed8; /* رنگ آبی اصلی سایت */
+}
+
+.modal-form .form-group {
+  margin-bottom: 18px;
+}
+
+.modal-form label {
+  display: block;
+  font-size: .9rem;
+  color: #4b5563;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.modal-form input[type="text"],
+.modal-form input[type="email"],
+.modal-form input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px; /* گوشه‌های گرد */
+  font-size: 1rem;
+  color: #111827;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.modal-form input:focus {
+  outline: none;
+  border-color: #f97316; /* رنگ نارنجی دکمه اصلی */
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+
+.modal-form .btn-submit {
+  width: 100%;
+  padding: 14px 18px;
+  background: #f97316; /* رنگ نارنجی دکمه اصلی */
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms ease, box-shadow 200ms ease;
+  box-shadow: 0 12px 22px rgba(249,115,22,.45);
+  margin-top: 8px;
+}
+
+.modal-form .btn-submit:hover {
+  background: #ea580c;
+  box-shadow: 0 18px 30px rgba(234,88,12,.55);
+}
+
+.modal-toggle {
+  text-align: center;
+  margin-top: 20px;
+  font-size: .9rem;
+  color: #4b5563;
+}
+
+.modal-toggle a {
+  color: #1d4ed8;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.modal-toggle a:hover {
+  text-decoration: underline;
+}
+
+    /* تنظیمات کلی */
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "IRANSans", sans-serif;
+      background-color: #f5f5f7;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img{
+      max-width: 100%;
+      display: block;
+    }
+
+    /* هدر */
+    header{
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #fff;
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 18px rgba(15,23,42,.35);
+    }
+
+    .nav{
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-logo{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .nav-logo span{
+      background: rgba(255,255,255,.18);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .9rem;
+    }
+
+    .nav-links{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: .95rem;
+    }
+
+    /* دکمه‌های اصلی (با انیمیشن) */
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: .9rem;
+      font-weight: 500;
+      background: #ffffff;
+      color: #1d4ed8;
+
+      /* برای انیمیشن */
+      transform: translateY(0);
+      box-shadow: 0 10px 18px rgba(15,23,42,.18);
+      transition: transform 180ms cubic-bezier(.2,.8,.2,1),
+                  box-shadow 180ms ease,
+                  background-color 180ms ease,
+                  color 180ms ease;
+      will-change: transform, box-shadow;
+    }
+
+    .btn:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 16px 28px rgba(15,23,42,.28);
+      background-color: #e0ecff;
+    }
+
+    .btn-primary{
+      background: #f97316;
+      color: #fff;
+      box-shadow: 0 12px 22px rgba(249,115,22,.45);
+    }
+
+    .btn-primary:hover{
+      background: #ea580c;
+      box-shadow: 0 18px 30px rgba(234,88,12,.55);
+    }
+
+    /* بخش Hero */
+    .hero{
+      max-width: 1100px;
+      margin: 24px auto;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 32px;
+      padding: 0 16px;
+    }
+
+    .hero-text h1{
+      font-size: 2.1rem;
+      margin-bottom: 12px;
+    }
+
+    .hero-text p{
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .hero-badges{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: .85rem;
+    }
+
+    .hero-badge{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .hero-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hero-image{
+      background: radial-gradient(circle at top, #e0f2fe, #eff6ff);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 34px rgba(15,23,42,.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url(pa.png);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero-image-inner{
+      text-align: center;
+    }
+
+    .hero-image-inner h2{
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .hero-image-inner p{
+      font-size: .9rem;
+      color: #4b5563;
+    }
+
+    /* بخش محصولات */
+    .section{
+      max-width: 1100px;
+      margin: 0 auto 32px;
+      padding: 0 16px;
+    }
+
+    .section-title{
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle{
+      font-size: .9rem;
+      color: #6b7280;
+      margin-bottom: 18px;
+    }
+
+    .product-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .product-card{
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 8px 18px rgba(15,23,42,.06);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-badge{
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(34,197,94,.12);
+      color: #15803d;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: .7rem;
+    }
+
+    .product-title{
+      font-size: .95rem;
+      font-weight: 600;
+    }
+
+    .product-desc{
+      font-size: .8rem;
+      color: #6b7280;
+    }
+
+    .product-footer{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .product-price{
+      font-weight: 700;
+      color: #111827;
+      font-size: .95rem;
+    }
+
+    .product-price span{
+      font-size: .75rem;
+      color: #6b7280;
+    }
+
+    .btn-sm{
+      padding: 7px 14px;
+      font-size: .8rem;
+      box-shadow: 0 8px 16px rgba(15,23,42,.18);
+    }
+
+    /* بخش اطلاعات / تماس */
+    footer{
+      margin-top: 32px;
+      background-color: #07132c;
+      color: #b4c7ee;
+      padding: 20px 16px;
+    }
+
+    .footer-inner{
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      font-size: .85rem;
+    }
+
+    .footer-inner h3{
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .footer-inner ul{
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-inner li{
+      margin-bottom: 4px;
+    }
+
+    .footer-bottom{
+      max-width: 1100px;
+      margin: 10px auto 0;
+      font-size: .8rem;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* ریسپانسیو */
+    @media (max-width: 768px){
+      .hero{
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-image{
+        order: -1;
+      }
+
+      .nav{
+        flex-direction: column;
+        align-items: flex-start;
+      }
+ 
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.4);
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  transform: translateY(-40px);
+  transition: transform 300ms ease-in-out;
+  animation: modal-pop 400ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+@keyframes modal-pop {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+  transition: color 200ms ease;
+}
+
+.modal-close:hover {
+  color: #111827;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1d4ed8; /* رنگ آبی اصلی سایت */
+}
+
+.modal-form .form-group {
+  margin-bottom: 18px;
+}
+
+.modal-form label {
+  display: block;
+  font-size: .9rem;
+  color: #4b5563;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.modal-form input[type="text"],
+.modal-form input[type="email"],
+.modal-form input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px; /* گوشه‌های گرد */
+  font-size: 1rem;
+  color: #111827;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.modal-form input:focus {
+  outline: none;
+  border-color: #f97316; /* رنگ نارنجی دکمه اصلی */
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+
+.modal-form .btn-submit {
+  width: 100%;
+  padding: 14px 18px;
+  background: #f97316; /* رنگ نارنجی دکمه اصلی */
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms ease, box-shadow 200ms ease;
+  box-shadow: 0 12px 22px rgba(249,115,22,.45);
+  margin-top: 8px;
+}
+
+.modal-form .btn-submit:hover {
+  background: #ea580c;
+  box-shadow: 0 18px 30px rgba(234,88,12,.55);
+}
+
+.modal-toggle {
+  text-align: center;
+  margin-top: 20px;
+  font-size: .9rem;
+  color: #4b5563;
+}
+
+.modal-toggle a {
+  color: #1d4ed8;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.modal-toggle a:hover {
+  text-decoration: underline;
+}
+  </style>
+  <style>
+    li{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    /* آیکون‌های شبکه اجتماعی */
+.social-icon{
+    transition: 0.3s;
+}
+
+.social-icon:hover{
+    transform: scale(1.1);
+}
+
+/* انیمیشن کارت محصولات */
+.product-card{
+    transition: all 0.35s ease;
+}
+
+.product-card:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(37,99,235,.25);
+}
+
+/* عکس محصولات */
+.product-card img{
+    border-radius: 15px;
+    transition: transform 0.35s ease;
+}
+
+.product-card:hover img{
+    transform: scale(1.05);
+}
+    body{
+      background:white;
+      color:#222;
+      transition: 0.3s;
+    }
+    .dark{
+      background-color: #121212;
+      color: white;
+    }
+    .dark .product-card{
+      background:#1e1e1e;
+    }
+    </style>
+    <style>
+      .modal{
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+      }
+      .track-modal-content{
+        background: white;
+        width: 350px;
+        padding: 25px;
+        border-radius: 15px;
+        position: absolute;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+      }
+      .track-modal-content h2{
+        color: #f97316;
+        text-align: center;
+      }
+      .track-modal-content input{
+        width: 100%;
+        padding: 10px;
+        margin: 15px 0;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+      .track-modal-content input:focus{
+        border-color: #f97316;
+        outline: none;
+      }
+      .check-btn{
+        width: 100%;
+        background: #f97316;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 999px;
+      }
+      .check-btn:hover{
+        background: #ea580c;
+      }
+      .close{
+        float: left;
+        font-size: 28px;
+        cursor: pointer;
+      }
+      .slider-controls{
+    text-align:center;
+    margin:20px 0;
+    }
+    </style>
+    <style>
+      .slider-controls{
+    text-align: center;
+    margin: 20px 0;
+}
+
+.slider-controls button{
+    padding: 12px 18px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0 10px;
+    transition: 0.3s;
+}
+
+.slider-controls button:hover{
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(37,99,235,.25);
+}
+.product-card.hide{
+    display: none !important;
+}
+    </style>
+</head>
+<body>
+
+  <!-- هدر -->
+  <header>
+     
+    <div class="nav">
+      <div class="nav-logo">
+        پاسارگاد
+        <span>فروشگاه لوازم بهداشتی</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#products">محصولات</a>
+        <a href="#about">درباره ما</a>
+        <a href="#contact">تماس</a>
+        <button class="btn btn-primary">
+          ورود / عضویت
+        </button>
+         <button class="btn" id="cartBtn">🛒 سبد خرید (<span id="cartCount">0</span>)</button><button id="darkbtn">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- بخش Hero -->
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <h1>فروشگاه اینترنتی پاسارگاد</h1>
+        <p>
+          انواع لوازم بهداشتی، مراقبت پوست و مو، با ارسال سریع و تضمین اصالت کالا.
+          سلامتی و زیبایی شما، اولویت پاسارگاد است.
+        </p>
+
+        <div class="hero-badges">
+          <span class="hero-badge">ارسال به سراسر کشور</span>
+          <span class="hero-badge">پرداخت امن از درگاه بانکی</span>
+          <span class="hero-badge">ضمانت بازگشت کالا</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary">مشاهده محصولات</a>
+          <button class="btn"id="trakBtn">
+            پیگیری سفارش
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="hero-image-inner">
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش محصولات -->
+    <section id="products" class="section">
+      <br>
+      <br>
+      <p class="section-subtitle"></p>
+
+      <input id="searchBox" placeholder="🔍 جستجوی محصولات" style="padding:10px;border-radius:999px;border:1px solid #ddd;margin-bottom:15px;width:100%;">
+      <div class="slider-controls">
+    <button onclick="slideProducts(-1)">⬅️</button>
+    <button onclick="slideProducts(1)">➡️</button>
+</div>
+<div class="product-grid" id="productGrid">
+
+        <!-- محصول ۱ -->
+        <article class="product-card">
+          <img src="sha.png">
+          <span class="product-badge">پرفروش</span>
+          <h3 class="product-title">شامپو تقویت‌کننده پاسارگاد</h3>
+          <p class="product-desc">
+            مناسب انواع مو، حاوی ویتامین‌های گروه B و عصاره گیاهان تقویت‌کننده پوست سر.
+          </p>
+          <div class="product-footer">
+            <div class="product-price">
+              ۱۸۵,۰۰۰
+              <span>تومان</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="pay(1)">
+              افزودن به سبد ➕
+            </button>
+          </div>
+        </article>
+
+        <!-- محصول ۲ -->
+        <article class="product-card">
+          <img src="da.png">
+          <h3 class="product-title">مایع دستشویی آنتی‌باکتریال</h3>
+          <p class="product-desc">
+            ضدعفونی‌کننده ملایم، مناسب استفاده روزانه، با رایحه ملایم و ماندگار.
+          </p>
+          <div class="product-footer">
+            <div class="product-price">
+              ۹۵,۰۰۰
+              <span>تومان</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="pay(2)">
+              افزودن به سبد ➕
+            </button>
+          </div>
+        </article>
+
+        <!-- محصول ۳ -->
+        <article class="product-card">
+          <img src="km.png">
+          <h3 class="product-title">کرم مرطوب‌کننده دست و صورت</h3>
+          <p class="product-desc">
+            مناسب پوست خشک و معمولی، با بافت سبک و جذب سریع، بدون حس چربی روی پوست.
+          </p>
+          <div class="product-footer">
+            <div class="product-price">
+              ۱۴۵,۰۰۰
+              <span>تومان</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="pay(3)">
+              افزودن به سبد ➕
+            </button>
+          </div>
+        </article>
+
+        <!-- محصول 4 -->
+        <article class="product-card">
+          <img src="shampo.png">
+          <h3 class="product-title">شامپو ضد شوره پاسارگاد</h3>
+          <p class="product-desc">مناسب انواع مو با فرمول ضد شوره.</p>
+          <div class="product-footer">
+            <div class="product-price">
+              ۲۱۰,۰۰۰
+              <span>تومان</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="pay(4)">
+              افزودن به سبد ➕
+            </button>
+          </div>
+        </article>
+
+        <!-- محصول 5 -->
+        <article class="product-card">
+          <img src="sab.png">
+          <h3 class="product-title">صابون گیاهی آلوئه‌ورا</h3>
+          <p class="product-desc">پاک‌کنندگی ملایم همراه با عصاره آلوئه‌ورا.</p>
+          <div class="product-footer">
+            <div class="product-price">
+              ۷۵,۰۰۰
+              <span>تومان</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="pay(5)">
+              افزودن به سبد ➕
+            </button>
+          </div>
+        </article>
+
+        <!-- محصول 6 -->
+        <article class="product-card">
+          <img src="kham.png">
+          <h3 class="product-title">خمیردندان سفیدکننده</h3>
+          <p class="product-desc">کمک به سفیدی دندان و خوشبوکننده دهان.</p>
+          <div class="product-footer">
+            <div class="product-price">
+              ۱۲۰,۰۰۰
+              <span>تومان</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="pay(6)">
+              افزودن به سبد ➕
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- بخش درباره / تماس -->
+    <section id="about" class="section">
+      <h2 class="section-title">درباره پاسارگاد</h2>
+      <p class="section-subtitle">
+        فروشگاه پاسارگاد با هدف ارائه لوازم بهداشتی معتبر و باکیفیت، فعالیت خود را آغاز کرده است.
+      </p>
+      <p style="font-size:.9rem; color:#374151;">تمامی محصولات فروشگاه پاسارگاد اصل میباشند و در صورت تقلبی بودن محصول پس گرفته میشود</p>
+     
+    </section>
+
+    <section id="contact" class="section">
+      <h2 class="section-title">راه‌های ارتباطی</h2>
+      <p class="section-subtitle">
+        برای ثبت سفارش، پیگیری، یا همکاری، با ما در تماس باشید.
+      </p>
+      <ul style="font-size:.9rem; color:#374151; list-style:none; padding:0;">
+        <li>تلفن: 09123456789</li>
+        <li>ایمیل:pasargad@gmail.com</li>
+        <li>آدرس: کرمان، کرمان، هزارویک شب، کوچه 20</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- فوتر -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <h3>پاسارگاد</h3>
+        <p>
+          فروشگاه اینترنتی لوازم بهداشتی پاسارگاد، همراه شما برای انتخابی مطمئن و خریدی آسان.
+        </p>
+      </div>
+      <div>
+        <h3>راه های ارتباط با ما</h3>
+        <ul>
+          <li><img src="instagram.png" width="30" class="social-icon">اینستاگرام</li>
+
+<li><img src="telegram.png" width="30" class="social-icon">تلگرام</li>
+
+<li><img src="toeter.png" width="30" class="social-icon">ایکس</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      ©Designed&Dvevelopd by MIKAEL POURAMANI
+    </div>
+    <!-- Modal Overlay -->
+<div id="loginSignupModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h2 class="modal-title" id="modalTitle">ورود به حساب کاربری</h2>
+
+    <form id="loginForm" class="modal-form">
+      <div class="form-group">
+        <label for="email">ایمیل</label>
+        <input type="email" id="email" name="email" placeholder="example@pasargad.com" required>
+      </div>
+      <div class="form-group">
+        <label for="password">رمز عبور</label>
+        <input type="password" id="password" name="password" placeholder="حداقل ۶ کاراکتر" required>
+      </div>
+      <button type="submit" class="btn-submit">ورود</button>
+    </form>
+
+    <form id="signupForm" class="modal-form" style="display: none;">
+      <div class="form-group">
+        <label for="fullName">نام و نام خانوادگی</label>
+        <input type="text" id="fullName" name="fullName" placeholder="نام شما" required>
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">ایمیل</label>
+        <input type="email" id="signupEmail" name="signupEmail" placeholder="example@pasargad.com" required>
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">رمز عبور</label>
+        <input type="password" id="signupPassword" name="signupPassword" placeholder="حداقل ۶ کاراکتر" required>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">تکرار رمز عبور</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="تکرار رمز عبور" required>
+      </div>
+      <button type="submit" class="btn-submit">ثبت نام</button>
+    </form>
+
+    <div class="modal-toggle">
+      <span id="toggleText">حساب کاربری ندارید؟</span>
+      <a href="#" onclick="toggleForm()">ثبت نام کنید</a>
+    </div>
+  </div>
+</div>
+<div id="trackModal" class="modal">
+  <div class="track-modal-content">
+    <span class="close">&times;</span>
+    <h2>پیگیری سفارش</h2>
+    <input type="text" placeholder="کد سفارش را وارد کنید">
+    <button class="check-btn">بررسی سفارش</button>
+</div> 
+  </div>
+  </footer>
+  <script>
+  // --- Modal Toggle Logic ---
+  const modalOverlay = document.getElementById('loginSignupModal');
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+  const modalTitle = document.getElementById('modalTitle');
+  const toggleText = document.getElementById('toggleText');
+  const headerLoginButton = document.querySelector('.nav-links .btn-primary');
+
+  function openModal() {
+    modalOverlay.classList.add('active');
+    // Set initial state to login form
+    loginForm.style.display = 'block';
+    signupForm.style.display = 'none';
+    modalTitle.textContent = 'ورود به حساب کاربری';
+    toggleText.textContent = 'حساب کاربری ندارید؟ ';
+    // Make sure the 'Sign Up' link points to the signup function
+    document.querySelector('.modal-toggle a').setAttribute('onclick', 'toggleForm()');
+    document.querySelector('.modal-toggle a').textContent = 'ثبت نام کنید';
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    // Reset forms and state when closing
+    loginForm.reset();
+    signupForm.reset();
+    // Ensure login form is shown next time it's opened
+    loginForm.style.display = 'block';
+    signupForm.style.display = 'none';
+    modalTitle.textContent = 'ورود به حساب کاربری';
+    toggleText.textContent = 'حساب کاربری ندارید؟ ';
+    document.querySelector('.modal-toggle a').setAttribute('onclick', 'toggleForm()');
+    document.querySelector('.modal-toggle a').textContent = 'ثبت نام کنید';
+  }
+
+  function toggleForm() {
+    const isLogin = loginForm.style.display === 'block';
+
+    if (isLogin) {
+      // Switching to Signup
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+      modalTitle.textContent = 'ایجاد حساب کاربری';
+      toggleText.textContent = 'قبلاً حساب کاربری داشته‌اید؟ ';
+      document.querySelector('.modal-toggle a').setAttribute('onclick', 'toggleForm()');
+      document.querySelector('.modal-toggle a').textContent = 'وارد شوید';
+    } else {
+      // Switching to Login
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'block';
+      modalTitle.textContent = 'ورود به حساب کاربری';
+      toggleText.textContent = 'حساب کاربری ندارید؟ ';
+      document.querySelector('.modal-toggle a').setAttribute('onclick', 'toggleForm()');
+      document.querySelector('.modal-toggle a').textContent = 'ثبت نام کنید';
+    }
+  }
+
+  // Event listener for the header button
+  if (headerLoginButton) {
+    headerLoginButton.onclick = openModal;
+  }
+
+  // Close modal if clicking outside the content
+  modalOverlay.addEventListener('click', function(event) {
+    if (event.target === modalOverlay) {
+      closeModal();
+    }
+  });
+
+  // Prevent form submission from reloading the page (for demo purposes)
+  loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert("عملیات ورود (نمایشی)");
+    closeModal(); // Close after simulated login
+  });
+
+  signupForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    // Add password confirmation check if needed
+    if (document.getElementById('signupPassword').value !== document.getElementById('confirmPassword').value) {
+        alert("تکرار رمز عبور صحیح نیست.");
+        return;
+    }
+    alert("عملیات ثبت نام (نمایشی)");
+    closeModal(); // Close after simulated signup
+  });
+
+  // --- Product Pay Function (existing) ---
+  function pay(productId) {
+    const products = {
+      1: { name: "شامپو تقویت‌کننده پاسارگاد", price: 185000 },
+      2: { name: "مایع دستشویی آنتی‌باکتریال", price: 95000 },
+      3: { name: "کرم مرطوب‌کننده دست و صورت", price: 145000 },
+      4: { name: "شامپو ضد شوره پاسارگاد", price: 210000 },
+      5: { name: "صابون گیاهی آلوئه‌ورا", price: 75000 },
+      6: { name: "خمیردندان سفیدکننده", price: 120000 },
+    };
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.push(products[productId]);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert("محصول به سبد خرید اضافه شد.");
+  }
+
+  function updateCartCount(){
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const el = document.getElementById("cartCount");
+    if(el) el.textContent = cart.length;
+  }
+
+  window.addEventListener("load", updateCartCount);
+</script>
+<script>
+  let btn = document.getElementById("darkbtn");
+    btn.addEventListener("click",function(){
+      document.body.classList.toggle("dark");
+      if (document.body.classList.contains("dark")){
+        btn.innerHTML="☀️";
+      }else{
+        btn.innerHTML="🌙";
+      }
+    });
+</script>
+<script>
+  const modal= document.getElementById("trackModal")
+  const trakBtn = document.getElementById("trakBtn")
+  const closeBtn=document.querySelector(".close")
+  trakBtn.onclick=function(){
+    modal.style.display="block";
+  }
+  closeBtn.onclick=function(){
+    modal.style.display="none";
+  }
+  window.onclick=function(event){
+    if(event.target==modal){
+      modal.style.display="none";
+    }
+  }
+  document.querySelector(".check-btn").onclick=function(){
+    let code = document.querySelector(".track-modal-content input").value;
+    if(code == "1234"){
+      alert("سفارش شما درحال اماده سازی است");
+    }
+    else if(code == "5678"){
+      alert("سفارش شما ارسال شده");
+    }
+    else if(code == "4321"){
+      alert("سفارش شما تحویل داده شده است");
+    }
+    else{
+      alert("کد سفارش یافت نشد");
+    }
+  }
+</script>
+<script>
+let currentIndex = 0;
+
+/* سرچ */
+document.getElementById("searchBox").addEventListener("input", function(){
+    const q = this.value.toLowerCase();
+
+    document.querySelectorAll(".product-card").forEach(card => {
+        if(card.innerText.toLowerCase().includes(q)){
+            card.classList.remove("hide");
+        } else {
+            card.classList.add("hide");
+        }
+    });
+
+    currentIndex = 0;
+    renderSlider();
+});
+
+/* گرفتن کارت‌های قابل نمایش */
+function getVisibleCards(){
+    return Array.from(document.querySelectorAll(".product-card"))
+        .filter(card => !card.classList.contains("hide"));
+}
+
+/* رندر اسلایدر */
+function renderSlider(){
+
+    const cards = getVisibleCards();
+
+    if(cards.length === 0) return;
+
+    // فقط همینجا کنترل نمایش
+    document.querySelectorAll(".product-card").forEach(card => {
+        card.style.display = "none";
+    });
+
+    for(let i = 0; i < 3; i++){
+        const index = (currentIndex + i) % cards.length;
+        cards[index].style.display = "block";
+    }
+}
+
+/* حرکت */
+function slideProducts(direction){
+
+    const cards = getVisibleCards();
+
+    if(cards.length === 0) return;
+
+    currentIndex += direction;
+
+    if(currentIndex < 0){
+        currentIndex = cards.length - 1;
+    }
+
+    if(currentIndex >= cards.length){
+        currentIndex = 0;
+    }
+
+    renderSlider();
+}
+
+/* شروع */
+window.addEventListener("load", () => {
+    renderSlider();
+});
+</script>
+</body>
+</html>
